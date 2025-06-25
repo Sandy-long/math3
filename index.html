@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>趣味数学2 - 时间与图形</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        
+        h2 {
+            color: #2980b9;
+            margin-top: 35px;
+            border-left: 5px solid #3498db;
+            padding-left: 10px;
+        }
+        
+        h3 {
+            color: #16a085;
+            margin-top: 25px;
+        }
+        
+        .section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .rule {
+            background-color: #f1f9fe;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            border-left: 4px solid #3498db;
+            font-size: 0.95em;
+        }
+        
+        .example {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .question {
+            font-weight: bold;
+            color: #e74c3c;
+            margin: 15px 0 5px 0;
+        }
+        
+        .answer {
+            color: #27ae60;
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        /* 日历动画样式 */
+        .calendar-animation {
+            width: 100%;
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 15px;
+            background-color: #f5f7fa;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+        
+        .calendar-day {
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 4px;
+            background-color: #ecf0f1;
+            font-size: 0.9em;
+        }
+        
+        .calendar-day.header {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .calendar-day.invalid {
+            background-color: #e74c3c;
+            color: white;
+            animation: pulseInvalid 1.5s infinite;
+        }
+        
+        .calendar-day.valid {
+            background-color: #2ecc71;
+            color: white;
+            animation: pulseValid 1.5s infinite;
+        }
+        
+        @keyframes pulseInvalid {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); background-color: #c0392b; }
+        }
+        
+        @keyframes pulseValid {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); background-color: #27ae60; }
+        }
+        
+        /* 数独动画样式 */
+        .sudoku-animation {
+            width: 100%;
+            max-width: 300px;
+            margin: 20px auto;
+        }
+        
+        .sudoku-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2px;
+            background-color: #333;
+            padding: 2px;
+        }
+        
+        .sudoku-cell {
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: white;
+            font-size: 1.5em;
+            font-weight: bold;
+            position: relative;
+        }
+        
+        .sudoku-cell.highlight {
+            background-color: #f1c40f;
+            animation: highlightCell 1s infinite;
+        }
+        
+        @keyframes highlightCell {
+            0%, 100% { background-color: #f1c40f; }
+            50% { background-color: #f39c12; }
+        }
+        
+        /* 图形变换动画 */
+        .transform-animation {
+            width: 100%;
+            height: 200px;
+            position: relative;
+            margin: 20px auto;
+            background-color: #f5f7fa;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .shape {
+            width: 60px;
+            height: 60px;
+            background-color: #3498db;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transition: all 1s ease;
+        }
+        
+        .shape.rotated {
+            transform: translate(-50%, -50%) rotate(90deg);
+            background-color: #e74c3c;
+        }
+        
+        .shape.translated {
+            transform: translate(calc(-50% + 100px), -50%);
+            background-color: #2ecc71;
+        }
+        
+        /* 糖果分配动画 */
+        .candy-animation {
+            width: 100%;
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 15px;
+            background-color: #f5f7fa;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .people-container {
+            display: flex;
+            justify-content: space-around;
+            margin: 15px 0;
+        }
+        
+        .person {
+            text-align: center;
+        }
+        
+        .candy-bowl {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #e74c3c;
+            margin: 0 auto 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2em;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+            transition: all 0.5s ease;
+        }
+        
+        .candy-bowl.animated {
+            animation: candyDrop 1s;
+        }
+        
+        @keyframes candyDrop {
+            0% { transform: translateY(-20px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+        
+        /* 竖式谜题动画 */
+        .puzzle-animation {
+            width: 100%;
+            max-width: 300px;
+            margin: 20px auto;
+            padding: 15px;
+            background-color: #f5f7fa;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .puzzle-row {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 5px;
+            position: relative;
+        }
+        
+        .puzzle-digit {
+            width: 30px;
+            height: 40px;
+            margin-left: 5px;
+            border: 1px solid #ccc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            background-color: white;
+        }
+        
+        .puzzle-digit.unknown {
+            background-color: #3498db;
+            color: white;
+            animation: pulseDigit 1.5s infinite;
+        }
+        
+        @keyframes pulseDigit {
+            0%, 100% { transform: scale(1); background-color: #3498db; }
+            50% { transform: scale(1.05); background-color: #2980b9; }
+        }
+        
+        .puzzle-line {
+            height: 2px;
+            background-color: #333;
+            margin: 10px 0;
+        }
+        
+        /* 控制按钮样式 */
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .control-btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 20px;
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .control-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .control-btn:disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            
+            .section {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>趣味数学3</h1>
+    
+    <div class="section">
+        <h2>时间问题</h2>
+        
+        <div class="calendar-animation">
+            <div class="calendar-header">
+                <span>2023年4月</span>
+            </div>
+            <div class="calendar-grid">
+                <div class="calendar-day header">日</div>
+                <div class="calendar-day header">一</div>
+                <div class="calendar-day header">二</div>
+                <div class="calendar-day header">三</div>
+                <div class="calendar-day header">四</div>
+                <div class="calendar-day header">五</div>
+                <div class="calendar-day header">六</div>
+                
+                <div class="calendar-day">26</div>
+                <div class="calendar-day">27</div>
+                <div class="calendar-day">28</div>
+                <div class="calendar-day">29</div>
+                <div class="calendar-day">30</div>
+                <div class="calendar-day">1</div>
+                <div class="calendar-day">2</div>
+                
+                <div class="calendar-day">3</div>
+                <div class="calendar-day">4</div>
+                <div class="calendar-day">5</div>
+                <div class="calendar-day">6</div>
+                <div class="calendar-day">7</div>
+                <div class="calendar-day">8</div>
+                <div class="calendar-day">9</div>
+                
+                <div class="calendar-day">10</div>
+                <div class="calendar-day">11</div>
+                <div class="calendar-day">12</div>
+                <div class="calendar-day">13</div>
+                <div class="calendar-day">14</div>
+                <div class="calendar-day">15</div>
+                <div class="calendar-day">16</div>
+                
+                <div class="calendar-day">17</div>
+                <div class="calendar-day">18</div>
+                <div class="calendar-day">19</div>
+                <div class="calendar-day">20</div>
+                <div class="calendar-day">21</div>
+                <div class="calendar-day">22</div>
+                <div class="calendar-day">23</div>
+                
+                <div class="calendar-day">24</div>
+                <div class="calendar-day">25</div>
+                <div class="calendar-day">26</div>
+                <div class="calendar-day">27</div>
+                <div class="calendar-day">28</div>
+                <div class="calendar-day">29</div>
+                <div class="calendar-day">30</div>
+                
+                <div class="calendar-day invalid">31</div>
+                <div class="calendar-day">1</div>
+                <div class="calendar-day">2</div>
+                <div class="calendar-day">3</div>
+                <div class="calendar-day">4</div>
+                <div class="calendar-day">5</div>
+                <div class="calendar-day">6</div>
+            </div>
+        </div>
+        
+        <h3>1. 日期合法性</h3>
+        <div class="rule">
+            <strong>运算法则：</strong>判断日期是否符合各月天数规则。注意特殊月份（2月28或29天，31天月份等）。
+        </div>
+        
+        <div class="example">
+            <div class="question">4月31日是否合法？</div>
+            <div class="answer">不合法。</div>
+            
+            <div class="question">2月29日在2012年是否合法？</div>
+            <div class="answer">合法。</div>
+            
+            <div class="question">6月31日是否合法？</div>
+            <div class="answer">不合法。</div>
+        </div>
+        
+        <h3>2. 闰年与世纪</h3>
+        <div class="rule">
+            <strong>运算法则：</strong>闰年：年份能被4整除且不能被100整除，或能被400整除。世纪年：年份除以100得整数。
+        </div>
+        
+        <div class="example">
+            <div class="question">2010年属于哪个世纪？</div>
+            <div class="answer">21世纪。</div>
+            
+            <div class="question">2000年是闰年吗？</div>
+            <div class="answer">是。</div>
+            
+            <div class="question">1900年是闰年吗？</div>
+            <div class="answer">不是。</div>
+        </div>
+        
+        <h3>3. 时间轴计算</h3>
+        <div class="rule">
+            <strong>运算法则：</strong>公元前年份往后推减，公元后年份顺增。计算跨越公元前后的时间时注意方向。
+        </div>
+        
+        <div class="example">
+            <div class="question">公元前5年发生地震，2年后是哪一年？</div>
+            <div class="answer">公元前3年。</div>
+            
+            <div class="question">公元前10年到公元5年间隔多少年？</div>
+            <div class="answer">14年。</div>
+            
+            <div class="question">公元前1年到公元1年相隔几年？</div>
+            <div class="answer">1年。</div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>填数游戏</h2>
+        
+        <div class="sudoku-animation">
+            <div class="sudoku-grid">
+                <div class="sudoku-cell">8</div>
+                <div class="sudoku-cell">1</div>
+                <div class="sudoku-cell">6</div>
+                <div class="sudoku-cell">3</div>
+                <div class="sudoku-cell highlight">5</div>
+                <div class="sudoku-cell">7</div>
+                <div class="sudoku-cell">4</div>
+                <div class="sudoku-cell">9</div>
+                <div class="sudoku-cell">2</div>
+            </div>
+        </div>
+        
+        <h3>1. 数独类问题</h3>
+        <div class="rule">
+            <strong>运算法则：</strong>行、列、对角线数字和满足特定要求。同行列数字不重复。
+        </div>
+        
+        <div class="example">
+            <div class="question">在3×3方格中填数字，使每行和为15，"☆"应填多少？</div>
+            <div class="answer">5。</div>
+            
+            <div class="question">4×4数独中，行列数字不能重复，"☆"应填几？</div>
+            <div class="answer">具体题目具体分析。</div>
+            
+            <div class="question">3×3数字和为18，中心"☆"数字是多少？</div>
+            <div class="answer">6。</div>
+        </div>
+        
+        <h3>2. 图形填数</h3>
+        <div class="rule">
+            <strong>运算法则：</strong>根据几何图形位置与关系填写数字。满足加法或乘法关系。
+        </div>
+        
+        <div class="example">
+            <div class="question">三角形三边数之和为12，已知两边是4和5，"☆"应为多少？</div>
+            <div class="answer">3。</div>
+            
+            <div class="question">正方形四边相等，三个边为5，"☆"应是多少？</div>
+            <div class="answer">5。</div>
+            
+            <div class="question">圆形内数字加和为10，三个数字为3和4，"☆"是多少？</div>
+            <div class="answer">3。</div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>图形变换</h2>
+        
+        <div class="transform-animation">
+            <div class="shape" id="transformShape"></div>
+            <div class="controls">
+                <button class="control-btn" id="rotateBtn">旋转</button>
+                <button class="control-btn" id="translateBtn">平移</button>
+                <button class="control-btn" id="resetTransformBtn">重置</button>
+            </div>
+        </div>
+        
+        <h3>1. 平移与旋转</h3>
+        <div class="rule">
+            <strong>运算法则：</strong>平移：图形整体向某方向移动。旋转：图形绕固定点旋转一定角度。
+        </div>
+        
+        <div class="example">
+            <div class="question">房间向右平移3格，原在第2格，现在哪格？</div>
+            <div class="answer">第5格。</div>
+            
+            <div class="question">图形旋转90°后朝向怎样？</div>
+            <div class="answer">顺时针旋转90°。</div>
+            
+            <div class="question">正方形旋转180°后，形状变化如何？</div>
+            <div class="answer">形状不变，位置反转。</div>
+        </div>
+        
+        <h3>2. 现象分类</h3>
+        <div class="rule">
+            <strong>运算法则：</strong>区分平移（位置变化）和旋转（方向变化）。识别运动类型。
+        </div>
+        
+        <div class="example">
+            <div class="question">电动门打开属于哪种运动？</div>
+            <div class="answer">平移。</div>
+            
+            <div class="question">风车旋转属于哪种运动？</div>
+            <div class="answer">旋转。</div>
+            
+            <div class="question">物体绕轴转动属于？</div>
+            <div class="answer">旋转。</div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>整数分拆初步</h2>
+        
+        <div class="candy-animation">
+            <div class="people-container">
+                <div class="person">
+                    <div class="candy-bowl" id="person1">3</div>
+                    <div>小明</div>
+                </div>
+                <div class="person">
+                    <div class="candy-bowl" id="person2">2</div>
+                    <div>小红</div>
+                </div>
+                <div class="person">
+                    <div class="candy-bowl" id="person3">3</div>
+                    <div>小刚</div>
+                </div>
+            </div>
+            <div class="controls">
+                <button class="control-btn" id="distributeBtn">重新分配</button>
+            </div>
+        </div>
+        
+        <h3>1. 分配问题</h3>
+        <div class="rule">
+            <strong>运算法则：</strong>将整数分给多人，每人至少1颗。通过组合方式计算不同分法数。
+        </div>
+        
+        <div class="example">
+            <div class="question">8颗糖分给3人，每人至少2颗，有几种分法？</div>
+            <div class="answer">6种。</div>
+            
+            <div class="question">7颗糖分给3人，每人至少1颗，有几种不同的分法？</div>
+            <div class="answer">15种。</div>
+            
+            <div class="question">10颗糖分给4人，每人至少2颗，有几种分法？</div>
+            <div class="answer">10种。</div>
+        </div>
+        
+        <h3>2. 限制条件</h3>
+        <div class="rule">
+            <strong>运算法则：</strong>指定某人分得固定数量后，剩余再分配。满足每人最少分得数量限制。
+        </div>
+        
+        <div class="example">
+            <div class="question">8颗糖分给3人，文文必须分2颗，其余每人至少1颗，有几种分法？</div>
+            <div class="answer">4种。</div>
+            
+            <div class="question">10颗糖分给4人，其中一人得4颗，其余每人至少2颗，有几种？</div>
+            <div class="answer">1种。</div>
+            
+            <div class="question">9颗糖分给3人，思思得1颗，其余每人至少2颗，有几种分法？</div>
+            <div class="answer">4种。</div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>图形竖式谜</h2>
+        
+        <div class="puzzle-animation">
+            <div class="puzzle-row">
+                <div class="puzzle-digit unknown">☆</div>
+                <div class="puzzle-digit unknown">☆</div>
+            </div>
+            <div class="puzzle-row">
+                <div class="puzzle-digit">+</div>
+                <div class="puzzle-digit unknown">☆</div>
+            </div>
+            <div class="puzzle-line"></div>
+            <div class="puzzle-row">
+                <div class="puzzle-digit">1</div>
+                <div class="puzzle-digit">2</div>
+            </div>
+        </div>
+        
+        <h3>1. 数字替换</h3>
+        <div class="rule">
+            <strong>运算法则：</strong>相同图形代表相同数字，不同图形代表不同数字。所有图形数字范围为 0–9。首位不能为0，尝试代入竖式验证正确性。
+        </div>
+        
+        <div class="example">
+            <div class="question">若 ☆ + ☆ = 12，☆ 代表什么数？</div>
+            <div class="answer">6</div>
+            
+            <div class="question">若 ▽ + ▽ = 18，▽代表？</div>
+            <div class="answer">9</div>
+            
+            <div class="question">若 ★ + ◇ = 10，★和◇可能分别是？</div>
+            <div class="answer">(1,9)、(2,8)、(3,7)、(4,6)、(5,5)、(6,4)、(7,3)、(8,2)、(9,1)</div>
+        </div>
+        
+        <h3>2. 复杂竖式</h3>
+        <div class="rule">
+            <strong>运算法则：</strong>给定数字只能各用一次，需满足加法或减法竖式结构。首位不得为0，进位借位必须合理。尝试穷举并代入原算式验证。
+        </div>
+        
+        <div class="example">
+            <div class="question">用1、2、5、7组成两个两位数相加，结果为82，怎么组成？</div>
+            <div class="answer">25 + 57 = 82 或 57 + 25 = 82</div>
+            
+            <div class="question">用0、3、4、6填入□ + □ = 69，如何填？</div>
+            <div class="answer">34 + 35 = 69；但需满足不重复和首位不为0（可逐一验证）</div>
+            
+            <div class="question">在算式 ▽▽ + ▽ = 111 中，▽代表？</div>
+            <div class="answer">37（37×3=111）</div>
+        </div>
+    </div>
+
+    <script>
+        // 图形变换动画控制
+        const transformShape = document.getElementById('transformShape');
+        const rotateBtn = document.getElementById('rotateBtn');
+        const translateBtn = document.getElementById('translateBtn');
+        const resetTransformBtn = document.getElementById('resetTransformBtn');
+        
+        rotateBtn.addEventListener('click', function() {
+            transformShape.classList.toggle('rotated');
+            transformShape.classList.remove('translated');
+        });
+        
+        translateBtn.addEventListener('click', function() {
+            transformShape.classList.toggle('translated');
+            transformShape.classList.remove('rotated');
+        });
+        
+        resetTransformBtn.addEventListener('click', function() {
+            transformShape.className = 'shape';
+        });
+        
+        // 糖果分配动画控制
+        const distributeBtn = document.getElementById('distributeBtn');
+        const candyBowls = [
+            document.getElementById('person1'),
+            document.getElementById('person2'),
+            document.getElementById('person3')
+        ];
+        
+        function distributeCandies() {
+            // 确保总数是8
+            let total = 8;
+            let a = Math.floor(Math.random() * 4) + 2; // 2-5
+            let b = Math.floor(Math.random() * (total - a - 1)) + 1; // 至少1
+            let c = total - a - b;
+            
+            // 确保每人至少1颗
+            while (b < 1 || c < 1) {
+                a = Math.floor(Math.random() * 4) + 2;
+                b = Math.floor(Math.random() * (total - a - 1)) + 1;
+                c = total - a - b;
+            }
+            
+            candyBowls[0].textContent = a;
+            candyBowls[1].textContent = b;
+            candyBowls[2].textContent = c;
+            
+            // 添加动画效果
+            candyBowls.forEach(bowl => {
+                bowl.classList.remove('animated');
+                setTimeout(() => bowl.classList.add('animated'), 100);
+            });
+        }
+        
+        distributeBtn.addEventListener('click', distributeCandies);
+        
+        // 初始分配
+        distributeCandies();
+        
+        // 自动更换分配方案
+        setInterval(distributeCandies, 3000);
+    </script>
+</body>
+</html>
