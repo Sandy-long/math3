@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>趣味数学2 - 时间与图形</title>
+    <title>趣味数学3 - 时间与图形</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -66,10 +66,51 @@
             margin: 15px 0 5px 0;
         }
         
+        /* 添加：答案区域样式 */
+        .answer-container {
+            background: linear-gradient(135deg, #f0fff4 0%, #e6fffa 100%);
+            border: 1px solid #d1fae5;
+            border-radius: 8px;
+            padding: 5px 15px;
+            margin: 15px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .answer-container:hover {
+            background: linear-gradient(135deg, #dcffe4 0%, #c6f6d5 100%);
+            transform: translateX(5px);
+        }
+        .answer-prompt {
+            color: #10b981;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+        }
+        .answer-prompt:before {
+            content: "✨";
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
         .answer {
             color: #27ae60;
             margin-left: 20px;
-            margin-bottom: 15px;
+            padding: 10px 15px;
+            background-color: rgba(16, 185, 129, 0.1);
+            border-left: 3px solid #10b981;
+            border-radius: 0 8px 8px 0;
+            display: none;
+            font-weight: bold;
+            animation: fadeIn 0.5s ease;
+        }
+        .show-answer .answer {
+            display: block;
+        }
+        
+        /* 动画效果 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         /* 日历动画样式 */
@@ -171,159 +212,6 @@
             50% { background-color: #f39c12; }
         }
         
-        /* 图形变换动画 */
-        .transform-animation {
-            width: 100%;
-            height: 200px;
-            position: relative;
-            margin: 20px auto;
-            background-color: #f5f7fa;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        
-        .shape {
-            width: 60px;
-            height: 60px;
-            background-color: #3498db;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            transition: all 1s ease;
-        }
-        
-        .shape.rotated {
-            transform: translate(-50%, -50%) rotate(90deg);
-            background-color: #e74c3c;
-        }
-        
-        .shape.translated {
-            transform: translate(calc(-50% + 100px), -50%);
-            background-color: #2ecc71;
-        }
-        
-        /* 糖果分配动画 */
-        .candy-animation {
-            width: 100%;
-            max-width: 400px;
-            margin: 20px auto;
-            padding: 15px;
-            background-color: #f5f7fa;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        
-        .people-container {
-            display: flex;
-            justify-content: space-around;
-            margin: 15px 0;
-        }
-        
-        .person {
-            text-align: center;
-        }
-        
-        .candy-bowl {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background-color: #e74c3c;
-            margin: 0 auto 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-weight: bold;
-            font-size: 1.2em;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.2);
-            transition: all 0.5s ease;
-        }
-        
-        .candy-bowl.animated {
-            animation: candyDrop 1s;
-        }
-        
-        @keyframes candyDrop {
-            0% { transform: translateY(-20px); opacity: 0; }
-            100% { transform: translateY(0); opacity: 1; }
-        }
-        
-        /* 竖式谜题动画 */
-        .puzzle-animation {
-            width: 100%;
-            max-width: 300px;
-            margin: 20px auto;
-            padding: 15px;
-            background-color: #f5f7fa;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        
-        .puzzle-row {
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 5px;
-            position: relative;
-        }
-        
-        .puzzle-digit {
-            width: 30px;
-            height: 40px;
-            margin-left: 5px;
-            border: 1px solid #ccc;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: bold;
-            background-color: white;
-        }
-        
-        .puzzle-digit.unknown {
-            background-color: #3498db;
-            color: white;
-            animation: pulseDigit 1.5s infinite;
-        }
-        
-        @keyframes pulseDigit {
-            0%, 100% { transform: scale(1); background-color: #3498db; }
-            50% { transform: scale(1.05); background-color: #2980b9; }
-        }
-        
-        .puzzle-line {
-            height: 2px;
-            background-color: #333;
-            margin: 10px 0;
-        }
-        
-        /* 控制按钮样式 */
-        .controls {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin: 20px 0;
-        }
-        
-        .control-btn {
-            padding: 8px 15px;
-            border: none;
-            border-radius: 20px;
-            background-color: #3498db;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .control-btn:hover {
-            background-color: #2980b9;
-        }
-        
-        .control-btn:disabled {
-            background-color: #95a5a6;
-            cursor: not-allowed;
-        }
-        
         /* 响应式调整 */
         @media (max-width: 600px) {
             body {
@@ -412,13 +300,22 @@
         
         <div class="example">
             <div class="question">4月31日是否合法？</div>
-            <div class="answer">不合法</div>
+            <div class="answer-container">
+                <div class="answer-prompt">点击显示答案</div>
+                <div class="answer">不合法</div>
+            </div>
             
             <div class="question">2月29日在2012年是否合法？</div>
-            <div class="answer">合法</div>
+            <div class="answer-container">
+                <div class="answer-prompt">点击显示答案</div>
+                <div class="answer">合法</div>
+            </div>
             
             <div class="question">6月31日是否合法？</div>
-            <div class="answer">不合法</div>
+            <div class="answer-container">
+                <div class="answer-prompt">点击显示答案</div>
+                <div class="answer">不合法</div>
+            </div>
         </div>
         
         <h3>2. 闰年与世纪</h3>
@@ -428,13 +325,22 @@
         
         <div class="example">
             <div class="question">2010年属于哪个世纪？</div>
-            <div class="answer">21世纪</div>
+            <div class="answer-container">
+                <div class="answer-prompt">点击显示答案</div>
+                <div class="answer">21世纪</div>
+            </div>
             
             <div class="question">1600年、1800年是闰年吗？</div>
-            <div class="answer">是，不是</div>
+            <div class="answer-container">
+                <div class="answer-prompt">点击显示答案</div>
+                <div class="answer">是，不是</div>
+            </div>
             
             <div class="question">若某年是22世纪的最后一个闰年，该年份可能是？</div>
-            <div class="answer">2196年</div>
+            <div class="answer-container">
+                <div class="answer-prompt">点击显示答案</div>
+                <div class="answer">2196年</div>
+            </div>
         </div>
         
         <h3>3. 时间轴计算</h3>
@@ -444,18 +350,25 @@
         
         <div class="example">
             <div class="question">公元前8年发生旱灾，3年后是哪一年？</div>
-            <div class="answer">公元前5年</div>
+            <div class="answer-container">
+                <div class="answer-prompt">点击显示答案</div>
+                <div class="answer">公元前5年</div>
+            </div>
             
             <div class="question">若公元前20年建金字塔，公元5年修复，中间相隔几年？</div>
-            <div class="answer">24年</div>
+            <div class="answer-container">
+                <div class="answer-prompt">点击显示答案</div>
+                <div class="answer">24年</div>
+            </div>
             
             <div class="question">某文明历史如下：
-
-公元前12年建国，
 建国25年后迁都，
 迁都后10年灭亡。
 问：灭亡是哪一年？</div>
-            <div class="answer">公元23年</div>
+            <div class="answer-container">
+                <div class="answer-prompt">点击显示答案</div>
+                <div class="answer">公元23年</div>
+            </div>
         </div>
     </div>
     
@@ -483,14 +396,22 @@
         
         <div class="example">
             <div class="question">在3×3方格中填入数字1~9（不重复），使每行、每列、两条对角线的和均为15。求中心格"☆"的数字。</div>
-            <div class="answer">5</div>
+            <div class="answer-container">
+                <div class="answer-prompt">点击显示答案</div>
+                <div class="answer">5</div>
+            </div>
             
             <div class="question">在3×3方格中填入偶数（2,4,6,8,10,12,14,16,18），使每行、列、对角线和为30。求中心数"☆"。</div>
-            <div class="answer">10</div>
+            <div class="answer-container">
+                <div class="answer-prompt">点击显示答案</div>
+                <div class="answer">10</div>
+            </div>
 			
 			<div class="question">用字母A~I（A=1, B=2,..., I=9）填3×3方格，使每行、列、对角线和为15。若中心是"E"，求对角线数字关系。</div>
-            <div class="answer">两对角线和均为15，且对称（如8+2=10，6+4=10）</div>
-			
+            <div class="answer-container">
+                <div class="answer-prompt">点击显示答案</div>
+                <div class="answer">两对角线和均为15，且对称（如8+2=10，6+4=10）</div>
+            </div>
         </div>
         
         <h3>2. 图形填数</h3>
@@ -500,80 +421,34 @@
         
         <div class="example">
             <div class="question">三角形三边数之和为12，已知两边是4和5，"☆"应为多少？</div>
-            <div class="answer">3</div>
+            <div class="answer-container">
+                <div class="answer-prompt">点击显示答案</div>
+                <div class="answer">3</div>
+            </div>
             
             <div class="question">用斐波那契数列（1,1,2,3,5,8,13）填充七边形七条边，使相邻两边数字和均为质数。求最大边"☆"的可能值。</div>
-            <div class="answer">8</div>
+            <div class="answer-container">
+                <div class="answer-prompt">点击显示答案</div>
+                <div class="answer">8</div>
+            </div>
             
             <div class="question">圆形内数字加和为10，三个数字为3和4，"☆"是多少？</div>
-            <div class="answer">3</div>
+            <div class="answer-container">
+                <div class="answer-prompt">点击显示答案</div>
+                <div class="answer">3</div>
+            </div>
         </div>
     </div>
     
-   
-    
-
     <script>
-        // 图形变换动画控制
-        const transformShape = document.getElementById('transformShape');
-        const rotateBtn = document.getElementById('rotateBtn');
-        const translateBtn = document.getElementById('translateBtn');
-        const resetTransformBtn = document.getElementById('resetTransformBtn');
-        
-        rotateBtn.addEventListener('click', function() {
-            transformShape.classList.toggle('rotated');
-            transformShape.classList.remove('translated');
-        });
-        
-        translateBtn.addEventListener('click', function() {
-            transformShape.classList.toggle('translated');
-            transformShape.classList.remove('rotated');
-        });
-        
-        resetTransformBtn.addEventListener('click', function() {
-            transformShape.className = 'shape';
-        });
-        
-        // 糖果分配动画控制
-        const distributeBtn = document.getElementById('distributeBtn');
-        const candyBowls = [
-            document.getElementById('person1'),
-            document.getElementById('person2'),
-            document.getElementById('person3')
-        ];
-        
-        function distributeCandies() {
-            // 确保总数是8
-            let total = 8;
-            let a = Math.floor(Math.random() * 4) + 2; // 2-5
-            let b = Math.floor(Math.random() * (total - a - 1)) + 1; // 至少1
-            let c = total - a - b;
-            
-            // 确保每人至少1颗
-            while (b < 1 || c < 1) {
-                a = Math.floor(Math.random() * 4) + 2;
-                b = Math.floor(Math.random() * (total - a - 1)) + 1;
-                c = total - a - b;
-            }
-            
-            candyBowls[0].textContent = a;
-            candyBowls[1].textContent = b;
-            candyBowls[2].textContent = c;
-            
-            // 添加动画效果
-            candyBowls.forEach(bowl => {
-                bowl.classList.remove('animated');
-                setTimeout(() => bowl.classList.add('animated'), 100);
+        document.addEventListener('DOMContentLoaded', function() {
+            const containers = document.querySelectorAll('.answer-container');
+            containers.forEach(container => {
+                container.addEventListener('click', function() {
+                    this.classList.toggle('show-answer');
+                });
             });
-        }
-        
-        distributeBtn.addEventListener('click', distributeCandies);
-        
-        // 初始分配
-        distributeCandies();
-        
-        // 自动更换分配方案
-        setInterval(distributeCandies, 3000);
+        });
     </script>
 </body>
 </html>
